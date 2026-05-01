@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @AllArgsConstructor
@@ -19,11 +20,17 @@ public class EventService {
     EventRepository eventRepository;
 
     public String addEvent(EventRequest eventRequest) {
+        Instant eventTime = getLocalDateTimeInstant(eventRequest.getEventTime());
         Event event = Event.builder()
                 .eventId(eventRequest.getEventId())
-                .eventTime(getLocalDateTimeInstant(eventRequest.getEventTime()))
+                .eventTime(eventTime)
                 .eventName(eventRequest.getEventName())
-                .reminderDurationInSecs(eventRequest.getReminderDurationInSecs())
+                .reminderTime(
+                        getReminderTime(
+                        eventTime,
+                        eventRequest.getReminderDurationInSecs()
+                        )
+                )
                 .build();
 
         return eventRepository
@@ -39,5 +46,9 @@ public class EventService {
         ZonedDateTime zdt = ldt.atZone(ZoneId.of("Asia/Kolkata"));
 
         return zdt.toInstant();
+    }
+
+    private Instant getReminderTime(Instant eventTime, long reminderInSeconds) {
+        return eventTime.minus(reminderInSeconds, ChronoUnit.SECONDS);
     }
 }

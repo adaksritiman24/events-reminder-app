@@ -21,5 +21,5 @@ public class Event {
     String eventId;
     String eventName;
     Instant eventTime;
-    Long reminderDurationInSecs;
+    Instant reminderTime;
 }
