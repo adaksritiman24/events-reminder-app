@@ -17,12 +17,10 @@ public class LoaderService {
     private EventRepository eventRepository;
 
     public List<Event> getEventsToBeRemindedTill(long timeInSeconds) {
-        Instant remindersBy = LocalDateTime
-                .now()
-                .atZone(ZoneId.of("Asia/Kolkata"))
-                .plusSeconds(timeInSeconds)
-                .toInstant();
+        Instant currentTime = Instant.now();
+        Instant remindersBy = currentTime
+                .plusSeconds(timeInSeconds);
 
-        return eventRepository.getEventsRemindersBy(remindersBy);
+        return eventRepository.getEventsRemindersBy(currentTime, remindersBy);
     }
 }

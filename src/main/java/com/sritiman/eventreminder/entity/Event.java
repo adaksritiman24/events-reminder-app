@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -22,4 +24,12 @@ public class Event {
     String eventName;
     Instant eventTime;
     Instant reminderTime;
+
+    public ZonedDateTime getEventTimeAtLocaleInstant() {
+        return eventTime.atZone(ZoneId.of("Asia/Kolkata"));
+    }
+
+    public ZonedDateTime getReminderTimeAtLocaleInstant() {
+        return reminderTime.atZone(ZoneId.of("Asia/Kolkata"));
+    }
 }

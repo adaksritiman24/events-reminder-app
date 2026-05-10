@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface EventRepository extends JpaRepository<Event, String> {
 
-    @Query("SELECT e FROM Event e WHERE e.reminderTime < :remindersBy")
-    public List<Event> getEventsRemindersBy(Instant remindersBy);
+    @Query("SELECT e FROM Event e WHERE e.reminderTime >= :currentTime AND e.reminderTime <= :remindersBy")
+    public List<Event> getEventsRemindersBy(Instant currentTime, Instant remindersBy);
 }
