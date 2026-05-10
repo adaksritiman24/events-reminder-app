@@ -3,6 +3,7 @@ package com.sritiman.eventreminder.schedulers;
 import com.sritiman.eventreminder.entity.Event;
 import com.sritiman.eventreminder.schedulers.tasks.EventTask;
 import com.sritiman.eventreminder.service.LoaderService;
+import com.sritiman.eventreminder.ui.DesktopNotifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,7 +28,7 @@ public class TimerWheel {
     @Scheduled(fixedRate = 1000) //runs every second
     public void runScheduledNotifier() {
         // 5 seconds
-        long loadEventsDelayInSeconds = 60;
+        long loadEventsDelayInSeconds = 3600;
         loadTimeElapsedInSeconds ++;
 
         if(loadTimeElapsedInSeconds == loadEventsDelayInSeconds || initialDataLoad) {
