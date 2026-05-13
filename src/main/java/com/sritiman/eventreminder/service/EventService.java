@@ -3,6 +3,7 @@ package com.sritiman.eventreminder.service;
 import com.sritiman.eventreminder.dto.request.EventRequest;
 import com.sritiman.eventreminder.entity.Event;
 import com.sritiman.eventreminder.repository.EventRepository;
+import com.sritiman.eventreminder.schedulers.TimerWheel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.time.temporal.ChronoUnit;
 public class EventService {
 
     EventRepository eventRepository;
+    TimerWheel timerWheel;
 
     public String addEvent(EventRequest eventRequest) {
         Instant eventTime = getLocalDateTimeInstant(eventRequest.getEventTime());
@@ -32,6 +34,8 @@ public class EventService {
                         )
                 )
                 .build();
+
+        timerWheel.addEventToActiveWheelViaHotPath(event);
 
         return eventRepository
                 .save(event)

@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -16,11 +14,11 @@ public class LoaderService {
 
     private EventRepository eventRepository;
 
-    public List<Event> getEventsToBeRemindedTill(long timeInSeconds) {
-        Instant currentTime = Instant.now();
-        Instant remindersBy = currentTime
+    public List<Event> getEventsToBeRemindedTill(Instant startTime, long timeInSeconds) {
+
+        Instant remindersBy = startTime
                 .plusSeconds(timeInSeconds);
 
-        return eventRepository.getEventsRemindersBy(currentTime, remindersBy);
+        return eventRepository.getEventsRemindersBy(startTime, remindersBy);
     }
 }
